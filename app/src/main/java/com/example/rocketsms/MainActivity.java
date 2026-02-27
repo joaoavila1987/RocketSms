@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat;
 import com.example.rocketsms.background.BackgroundSmsService;
 import com.example.rocketsms.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SMS_PERMISSION_REQUEST_CODE = 1001;

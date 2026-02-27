@@ -1,7 +1,9 @@
 package com.example.rocketsms;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.widget.Toast;
@@ -11,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.rocketsms.Models.Envio;
+import com.example.rocketsms.background.BackgroundSmsService;
 import com.example.rocketsms.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int SMS_PERMISSION_REQUEST_CODE = 1001;
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1002;
     private ActivityMainBinding binding;
     private String pendingPhoneNumber;
     private String pendingMessage;
@@ -30,23 +33,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        List<Envio> listaEnvio = new ArrayList<>();
-
-        Envio envio  = new Envio();
-        envio.telefone = "024992279743";
-        envio.mensagem = "Esta é a mensagem do teste 01";
-
-        Envio envio2 = new Envio();
-        envio2.telefone = "024992279743";
-        envio2.mensagem = "Esta é a mensagem do teste 02";
-
-        Envio envio3 = new Envio();
-        envio3.telefone = "024992279743";
-        envio3.mensagem = "Esta é a mensagem do teste 03";
-
-        listaEnvio.add(envio);
-        listaEnvio.add(envio2);
-        listaEnvio.add(envio3);
+        requestNotificationPermissionIfNeeded();
+        startBackgroundSmsService();
 
         binding.buttonSendSms.setOnClickListener(v -> {
             String phoneNumber = binding.editTextPhoneNumber.getText().toString().trim();
@@ -63,11 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (hasSmsPermission()) {
-                for(Envio item : listaEnvio)
-                {
-                    sendSms(item.telefone, item.mensagem);
-                }
-
+                sendSms(phoneNumber, message);
             } else {
                 pendingPhoneNumber = phoneNumber;
                 pendingMessage = message;
@@ -78,6 +62,26 @@ public class MainActivity extends AppCompatActivity {
                 );
             }
         });
+
+        binding.buttonStartBackground.setOnClickListener(v -> {
+            startBackgroundSmsService();
+            Toast.makeText(this, R.string.background_service_started, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    NOTIFICATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void startBackgroundSmsService() {
+        Intent serviceIntent = new Intent(this, BackgroundSmsService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
     }
 
     private boolean hasSmsPermission() {
@@ -107,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, R.string.error_permission_denied, Toast.LENGTH_SHORT).show();
             }
+        }
+
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE && (grantResults.length == 0
+                || grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
+            Toast.makeText(this, R.string.warning_notification_permission, Toast.LENGTH_SHORT).show();
         }
     }
 }

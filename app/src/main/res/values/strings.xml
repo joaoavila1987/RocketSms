@@ -8,7 +8,11 @@
     <string name="error_permission_denied">Permissão de SMS negada.</string>
     <string name="success_sms_sent">SMS enviado com sucesso.</string>
     <string name="error_sms_failed">Falha ao enviar SMS.</string>
-    <string name="title_notifications">Notificações</string>
-    <string name="title_home">Início</string>
-    <string name="title_dashboard">Painel</string>
+    <string name="start_background">Iniciar serviço em segundo plano</string>
+    <string name="background_status">Monitoramento em 2º plano: consulta API a cada 3 minutos.</string>
+    <string name="background_service_started">Serviço em segundo plano iniciado.</string>
+    <string name="background_channel_name">RocketSms Background</string>
+    <string name="background_notification_title">RocketSms ativo</string>
+    <string name="background_notification_text">Consultando API e enviando SMS automaticamente.</string>
+    <string name="warning_notification_permission">Permissão de notificação negada. O serviço pode ficar limitado.</string>
 </resources>

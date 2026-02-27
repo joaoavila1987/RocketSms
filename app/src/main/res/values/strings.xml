@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">RocketSms</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="phone_number_hint">Número de telefone</string>
+    <string name="message_hint">Mensagem</string>
+    <string name="send_sms">Enviar SMS</string>
+    <string name="error_phone_required">Informe o número de telefone.</string>
+    <string name="error_message_required">Informe a mensagem.</string>
+    <string name="error_permission_denied">Permissão de SMS negada.</string>
+    <string name="success_sms_sent">SMS enviado com sucesso.</string>
+    <string name="error_sms_failed">Falha ao enviar SMS.</string>
 </resources>

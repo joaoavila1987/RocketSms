@@ -11,7 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.rocketsms.Models.Envio;
 import com.example.rocketsms.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +29,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        List<Envio> listaEnvio = new ArrayList<>();
+
+        Envio envio  = new Envio();
+        envio.telefone = "024992279743";
+        envio.mensagem = "Esta é a mensagem do teste 01";
+
+        Envio envio2 = new Envio();
+        envio2.telefone = "024992279743";
+        envio2.mensagem = "Esta é a mensagem do teste 02";
+
+        Envio envio3 = new Envio();
+        envio3.telefone = "024992279743";
+        envio3.mensagem = "Esta é a mensagem do teste 03";
+
+        listaEnvio.add(envio);
+        listaEnvio.add(envio2);
+        listaEnvio.add(envio3);
 
         binding.buttonSendSms.setOnClickListener(v -> {
             String phoneNumber = binding.editTextPhoneNumber.getText().toString().trim();
@@ -41,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (hasSmsPermission()) {
-                sendSms(phoneNumber, message);
+                for(Envio item : listaEnvio)
+                {
+                    sendSms(item.telefone, item.mensagem);
+                }
+
             } else {
                 pendingPhoneNumber = phoneNumber;
                 pendingMessage = message;

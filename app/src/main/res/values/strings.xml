@@ -8,4 +8,7 @@
     <string name="error_permission_denied">Permissão de SMS negada.</string>
     <string name="success_sms_sent">SMS enviado com sucesso.</string>
     <string name="error_sms_failed">Falha ao enviar SMS.</string>
+    <string name="title_notifications">Notificações</string>
+    <string name="title_home">Início</string>
+    <string name="title_dashboard">Painel</string>
 </resources>

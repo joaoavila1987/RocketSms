@@ -15,4 +15,7 @@
     <string name="background_notification_title">RocketSms ativo</string>
     <string name="background_notification_text">Consultando API e enviando SMS automaticamente.</string>
     <string name="warning_notification_permission">Permissão de notificação negada. O serviço pode ficar limitado.</string>
+    <string name="title_home">Início</string>
+    <string name="title_dashboard">Painel</string>
+    <string name="title_notifications">Notificações</string>
 </resources>
